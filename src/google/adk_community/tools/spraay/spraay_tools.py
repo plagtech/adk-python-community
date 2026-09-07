@@ -206,7 +206,7 @@ def spraay_batch_eth(
             {
                 "from": account.address,
                 "value": total_with_fee,
-                "nonce": w3.eth.get_transaction_count(account.address),
+                "nonce": w3.eth.get_transaction_count(account.address, "pending"),
                 "chainId": BASE_CHAIN_ID,
             }
         )
@@ -300,7 +300,7 @@ def spraay_batch_token(
             ).build_transaction(
                 {
                     "from": account.address,
-                    "nonce": w3.eth.get_transaction_count(account.address),
+                    "nonce": w3.eth.get_transaction_count(account.address, "pending"),
                     "chainId": BASE_CHAIN_ID,
                 }
             )
@@ -316,7 +316,7 @@ def spraay_batch_token(
         # Execute batch transfer. sprayEqual with a token address is the
         # contract's ERC-20 equal-amount path; the contract pulls
         # total + fee via transferFrom, so the allowance above covers it.
-        nonce = w3.eth.get_transaction_count(account.address)
+        nonce = w3.eth.get_transaction_count(account.address, "pending")
 
         tx = spraay_contract.functions.sprayEqual(
             token_addr, checksummed, amount_units
@@ -413,7 +413,7 @@ def spraay_batch_eth_variable(
             {
                 "from": account.address,
                 "value": total_with_fee,
-                "nonce": w3.eth.get_transaction_count(account.address),
+                "nonce": w3.eth.get_transaction_count(account.address, "pending"),
                 "chainId": BASE_CHAIN_ID,
             }
         )
@@ -511,7 +511,7 @@ def spraay_batch_token_variable(
             ).build_transaction(
                 {
                     "from": account.address,
-                    "nonce": w3.eth.get_transaction_count(account.address),
+                    "nonce": w3.eth.get_transaction_count(account.address, "pending"),
                     "chainId": BASE_CHAIN_ID,
                 }
             )
@@ -527,7 +527,7 @@ def spraay_batch_token_variable(
         # Execute batch transfer. sprayToken takes an array of Recipient
         # structs: (address, amount). The contract pulls total + fee via
         # transferFrom, so the allowance above covers it.
-        nonce = w3.eth.get_transaction_count(account.address)
+        nonce = w3.eth.get_transaction_count(account.address, "pending")
 
         recipient_structs = list(zip(checksummed, amounts_units))
 
