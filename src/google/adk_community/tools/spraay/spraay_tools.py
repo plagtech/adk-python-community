@@ -208,12 +208,13 @@ def spraay_batch_eth(
                 "value": total_with_fee,
                 "nonce": w3.eth.get_transaction_count(account.address),
                 "chainId": BASE_CHAIN_ID,
-                "gas": 0,  # Will be estimated
             }
         )
 
-        # Add 10% gas buffer to prevent 'out of gas' errors
-        tx["gas"] = int(w3.eth.estimate_gas(tx) * 1.1)
+        # build_transaction estimates gas (no "gas" placeholder: some RPCs,
+        # including the default Base RPC, treat an explicit 0 as a hard cap
+        # and reject estimation). Add a 10% buffer to the estimate.
+        tx["gas"] = int(tx["gas"] * 1.1)
         signed = account.sign_transaction(tx)
         tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
 
@@ -301,11 +302,10 @@ def spraay_batch_token(
                     "from": account.address,
                     "nonce": w3.eth.get_transaction_count(account.address),
                     "chainId": BASE_CHAIN_ID,
-                    "gas": 0,
                 }
             )
-            # Add 10% gas buffer
-            approve_tx["gas"] = int(w3.eth.estimate_gas(approve_tx) * 1.1)
+            # build_transaction estimated gas; add a 10% buffer.
+            approve_tx["gas"] = int(approve_tx["gas"] * 1.1)
             signed_approve = account.sign_transaction(approve_tx)
             approve_hash = w3.eth.send_raw_transaction(
                 signed_approve.raw_transaction
@@ -325,11 +325,10 @@ def spraay_batch_token(
                 "from": account.address,
                 "nonce": nonce,
                 "chainId": BASE_CHAIN_ID,
-                "gas": 0,
             }
         )
-        # Add 10% gas buffer
-        tx["gas"] = int(w3.eth.estimate_gas(tx) * 1.1)
+        # build_transaction estimated gas; add a 10% buffer.
+        tx["gas"] = int(tx["gas"] * 1.1)
         signed = account.sign_transaction(tx)
         tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
 
@@ -416,11 +415,10 @@ def spraay_batch_eth_variable(
                 "value": total_with_fee,
                 "nonce": w3.eth.get_transaction_count(account.address),
                 "chainId": BASE_CHAIN_ID,
-                "gas": 0,
             }
         )
-        # Add 10% gas buffer
-        tx["gas"] = int(w3.eth.estimate_gas(tx) * 1.1)
+        # build_transaction estimated gas; add a 10% buffer.
+        tx["gas"] = int(tx["gas"] * 1.1)
         signed = account.sign_transaction(tx)
         tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
 
@@ -515,11 +513,10 @@ def spraay_batch_token_variable(
                     "from": account.address,
                     "nonce": w3.eth.get_transaction_count(account.address),
                     "chainId": BASE_CHAIN_ID,
-                    "gas": 0,
                 }
             )
-            # Add 10% gas buffer
-            approve_tx["gas"] = int(w3.eth.estimate_gas(approve_tx) * 1.1)
+            # build_transaction estimated gas; add a 10% buffer.
+            approve_tx["gas"] = int(approve_tx["gas"] * 1.1)
             signed_approve = account.sign_transaction(approve_tx)
             approve_hash = w3.eth.send_raw_transaction(
                 signed_approve.raw_transaction
@@ -541,11 +538,10 @@ def spraay_batch_token_variable(
                 "from": account.address,
                 "nonce": nonce,
                 "chainId": BASE_CHAIN_ID,
-                "gas": 0,
             }
         )
-        # Add 10% gas buffer
-        tx["gas"] = int(w3.eth.estimate_gas(tx) * 1.1)
+        # build_transaction estimated gas; add a 10% buffer.
+        tx["gas"] = int(tx["gas"] * 1.1)
         signed = account.sign_transaction(tx)
         tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
 

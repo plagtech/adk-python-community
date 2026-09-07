@@ -305,7 +305,7 @@ class TestCallConstruction(unittest.TestCase):
         for fn in ("sprayEqual", "sprayETH", "sprayToken"):
             getattr(
                 contract.functions, fn
-            ).return_value.build_transaction.return_value = {"gas": 0}
+            ).return_value.build_transaction.return_value = {"gas": 100_000}
         mock_w3.eth.contract.return_value = contract
         return contract
 
